@@ -4,11 +4,11 @@ from src.utils import flatten
 
 
 def scrape_requirement_paragraph(p):
-    parts = p.text().split(':')
+    parts = p.text().split(':', 1)
     if len(parts) < 2:
         return []
     else:
-        return {parts[0]: parts[1]}
+        return {parts[0]: parts[1].strip()}
 
 
 def scrape_course(subject, div):
