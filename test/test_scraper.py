@@ -4,5 +4,6 @@ from src.scraper import scrape_page
 
 @vcr.use_cassette('vcr_cassettes/CSE.yaml')
 def test_scrape_page():
-    assert scrape_page('CSE')
+    data = scrape_page('CSE')
+    assert data
 

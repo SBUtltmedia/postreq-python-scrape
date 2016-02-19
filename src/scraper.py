@@ -1,11 +1,23 @@
 from pyquery import PyQuery as pq
 from tqdm import tqdm
+from src.utils import flatten
+
+
+def scrape_requirement_paragraph(p):
+    parts = p.text().split(':')
+    if len(parts) < 2:
+        return []
+    else:
+        return {parts[0]: parts[1]}
 
 
 def scrape_course(subject, div):
-    name = subject + ' ' + div.attr.id
-    title = div('h3').text()[len(name + ': '):]
-    description = div('p').eq(0).text()
+    return {
+        'name': subject + ' ' + div.attr.id,
+        'title': div('h3').text()[9:],
+        'description': div('p').eq(0).text(),
+        'requirements': flatten([scrape_requirement_paragraph(p) for p in div('p').filter(lambda i: i != 0).items()])
+    }
 
 
 def scrape_page(subject):
