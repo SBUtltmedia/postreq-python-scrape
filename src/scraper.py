@@ -5,7 +5,7 @@ from src.utils import flatten
 
 def scrape_requirement_paragraph(p):
     parts = p.text().split(':', 1)
-    if len(parts) < 2:
+    if len(parts) < 2:  # TODO: Allow extra data (# of credits, etc.)
         return []
     else:
         return {parts[0]: parts[1].strip()}
@@ -13,8 +13,8 @@ def scrape_requirement_paragraph(p):
 
 def scrape_course(subject, div):
     return {
-        'name': subject + ' ' + div.attr.id,
-        'title': div('h3').text()[9:],
+        'course': subject + ' ' + div.attr.id,
+        'name': div('h3').text()[9:],
         'description': div('p').eq(0).text(),
         'requirements': flatten([scrape_requirement_paragraph(p) for p in div('p').filter(lambda i: i != 0).items()])
     }
